@@ -15,6 +15,7 @@ namespace AddressBook
             Program program = new Program();
             Console.WriteLine("Welcome to Address Book program");
             program.Create();
+            program.Show();
             Console.ReadKey();
         }
         public void Create()//create new contact
@@ -37,8 +38,21 @@ namespace AddressBook
             Console.Write("Enter Email : ");
             personobj.email = Console.ReadLine();
             personlist.Add(personobj);
-            Console.WriteLine("Contact created successfully");
+            Console.WriteLine("\nContact created successfully");
+            Console.WriteLine("----------------------------------------------------------------------");
         }
+        public void Show()
+        {
+            foreach (Person details in personlist)//showing items in list
+            {
+                Console.WriteLine("Person details are :");
+                Console.WriteLine("\nFirstName : {0} \nLastName : {1} \nAddress : {2} \nCity : {3} \nState : {4} \nPhone Number : {5} \nZip : {6} \nEmail : {7}",
+                    details.fisrtName, details.lastName, details.address, details.city, details.state, details.phoneNumber,
+                     details.zip, details.email);
+                Console.WriteLine("----------------------------------------------------------------------");
+            }
+        }
+
 
     }
 }
