@@ -18,7 +18,7 @@ namespace AddressBook
             char ans;
             do
             {
-                Console.WriteLine("1)Add Contact   2)Show Contact   3)Edit Contact");
+                Console.WriteLine("1)Add Contact   2)Show Contact   3)Edit Contact   4)Delete Contact");
                 Console.Write("Enter your choice : ");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
@@ -32,7 +32,9 @@ namespace AddressBook
                     case 3:
                         program.Edit();
                         break;
-
+                    case 4:
+                        program.Delete();
+                        break;
                 }
                 Console.Write("Want to Continue(Y/N) : ");
                 ans = Convert.ToChar(Console.ReadLine());
@@ -67,9 +69,7 @@ namespace AddressBook
         {
             if (personlist.Count == 0)
             {
-                Console.Write("Your address book is empty.Press 1 to add new contact : ");
-                Console.ReadKey();
-                Create();
+                Console.WriteLine("Your address book is empty");
             }
             else
             foreach (Person details in personlist)//showing items in list
@@ -154,6 +154,25 @@ namespace AddressBook
         public void EditContact(Person person)
         {
             personlist1.Add(person);
+        }
+        public void Delete()
+        {
+            Console.Write("Enter the first name of the person you want to remove : ");
+            string firstName1 = Console.ReadLine();
+            Person person = personlist.FirstOrDefault(x => x.fisrtName== firstName1);
+            if (person == null)
+            {
+                Console.WriteLine("That person could not be found.");
+            }
+            else 
+            {
+                Console.WriteLine("Are you sure you want to remove this person from your address book? (Y/N)");
+                if (Console.ReadKey().Key == ConsoleKey.Y)
+                    personlist.Remove(person);
+                Console.WriteLine("\nContact deleted successfully");
+                Console.WriteLine("----------------------------------------------------------------------");
+                return;
+            }
         }
 
     }
