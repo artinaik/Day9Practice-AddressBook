@@ -8,6 +8,7 @@ namespace AddressBook
 {
     class Program
     {
+        Dictionary<string, List<Person>> persondic = new Dictionary<string, List<Person>>();
         List<Person> personlist = new List<Person>();
         List<Person> personlist1 = new List<Person>();
         static void Main(string[] args)
@@ -43,27 +44,37 @@ namespace AddressBook
         }
         public void Create()//create new contact
         {
-            Person personobj = new Person();
-            Console.WriteLine("\nEnter person details ");
-            Console.Write("\nEnter First Name : ");
-            personobj.fisrtName = Console.ReadLine();
-            Console.Write("Enter Last Name : ");
-            personobj.lastName = Console.ReadLine();
-            Console.Write("Enter Address : ");
-            personobj.address = Console.ReadLine();
-            Console.Write("Enter City : ");
-            personobj.city = Console.ReadLine();
-            Console.Write("Enter State : ");
-            personobj.state = Console.ReadLine();
-            Console.Write("Enter phone number : ");
-            personobj.phoneNumber = Convert.ToDouble(Console.ReadLine());
-            Console.Write("Enter Zip : ");
-            personobj.zip = Convert.ToDouble(Console.ReadLine());
-            Console.Write("Enter Email : ");
-            personobj.email = Console.ReadLine();
-            personlist.Add(personobj);
-            Console.WriteLine("\nContact created successfully");
-            Console.WriteLine("----------------------------------------------------------------------");
+            Console.Write("Enter Address book name : ");
+            string addressbkName = Console.ReadLine();
+            Console.Write("Enter number of how many contacts you want to create : ");
+            int countContact = int.Parse(Console.ReadLine());
+            int i = 1;
+            while(i<=countContact)
+            {
+                Person personobj = new Person();
+                Console.WriteLine("\nEnter person {0} details ", i);
+                Console.Write("\nEnter First Name : ");
+                personobj.fisrtName = Console.ReadLine();
+                Console.Write("Enter Last Name : ");
+                personobj.lastName = Console.ReadLine();
+                Console.Write("Enter Address : ");
+                personobj.address = Console.ReadLine();
+                Console.Write("Enter City : ");
+                personobj.city = Console.ReadLine();
+                Console.Write("Enter State : ");
+                personobj.state = Console.ReadLine();
+                Console.Write("Enter phone number : ");
+                personobj.phoneNumber = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Enter Zip : ");
+                personobj.zip = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Enter Email : ");
+                personobj.email = Console.ReadLine();
+                personlist.Add(personobj);
+                Console.WriteLine("\nContact created successfully");
+                Console.WriteLine("----------------------------------------------------------------------");
+                i++;
+            }
+            persondic.Add(addressbkName, personlist);
         }
         public void Show()
         {
@@ -73,14 +84,19 @@ namespace AddressBook
                 Console.WriteLine("Your address book is empty");
             }
             else
-            foreach (var contact in personlist)//showing items in list
-            {
-                Console.WriteLine("Person details are :");
-                    Console.WriteLine("\nFirstName : {0} \nLastName : {1} \nAddress : {2} \nCity : {3} \nState : {4} \nPhone Number : {5} \nZip : {6} \nEmail : {7}",
-                  contact.fisrtName, contact.lastName, contact.address, contact.city, contact.state, contact.phoneNumber,
-                   contact.zip, contact.email);
-                    Console.WriteLine("----------------------------------------------------------------------");
-            }
+                foreach(KeyValuePair<string,List<Person>> keyValue in persondic)
+                {
+                    Console.Write("Address Book name is : " + keyValue.Key);
+                    foreach (var contact in keyValue.Value)//showing items in list
+                    {
+                        Console.WriteLine("\nPerson details are :");
+                        Console.WriteLine("\nFirstName : {0} \nLastName : {1} \nAddress : {2} \nCity : {3} \nState : {4} \nPhone Number : {5} \nZip : {6} \nEmail : {7}",
+                      contact.fisrtName, contact.lastName, contact.address, contact.city, contact.state, contact.phoneNumber,
+                       contact.zip, contact.email);
+                        Console.WriteLine("----------------------------------------------------------------------");
+                    }
+                }
+           
         }
 
         public void Edit()
