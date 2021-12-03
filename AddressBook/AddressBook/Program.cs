@@ -8,7 +8,6 @@ namespace AddressBook
 {
     class Program
     {
-        Person personobj = new Person();
         List<Person> personlist = new List<Person>();
         List<Person> personlist1 = new List<Person>();
         static void Main(string[] args)
@@ -44,6 +43,7 @@ namespace AddressBook
         }
         public void Create()//create new contact
         {
+            Person personobj = new Person();
             Console.WriteLine("\nEnter person details ");
             Console.Write("\nEnter First Name : ");
             personobj.fisrtName = Console.ReadLine();
@@ -67,84 +67,80 @@ namespace AddressBook
         }
         public void Show()
         {
+           // Create();
             if (personlist.Count == 0)
             {
                 Console.WriteLine("Your address book is empty");
             }
             else
-            foreach (Person details in personlist)//showing items in list
+            foreach (var contact in personlist)//showing items in list
             {
                 Console.WriteLine("Person details are :");
-                Console.WriteLine("\nFirstName : {0} \nLastName : {1} \nAddress : {2} \nCity : {3} \nState : {4} \nPhone Number : {5} \nZip : {6} \nEmail : {7}",
-                    details.fisrtName, details.lastName, details.address, details.city, details.state, details.phoneNumber,
-                     details.zip, details.email);
-                Console.WriteLine("----------------------------------------------------------------------");
+                    Console.WriteLine("\nFirstName : {0} \nLastName : {1} \nAddress : {2} \nCity : {3} \nState : {4} \nPhone Number : {5} \nZip : {6} \nEmail : {7}",
+                  contact.fisrtName, contact.lastName, contact.address, contact.city, contact.state, contact.phoneNumber,
+                   contact.zip, contact.email);
+                    Console.WriteLine("----------------------------------------------------------------------");
             }
         }
+
         public void Edit()
         {
-            Console.WriteLine("Enter FirstName of person which contact wants to edit");
-            string newName = Console.ReadLine();
-            char ans;
-            if(newName==personobj.fisrtName)
-            {
-                //do
-                //{
             
-                    Console.WriteLine("1)FirstName 2)LastName 3)Address 4)City 5)State 6)Phone Number 7)Zip 8)Email");
-                    Console.Write("Enter number from above list which you wants to edit :");
-                    int choice = Convert.ToInt32(Console.ReadLine());
-                    switch (choice)
-                    {
-                        case 1:
-                            Console.Write("\nEnter First Name : ");
-                            personobj.fisrtName = Console.ReadLine();
+            Console.WriteLine("Enter FirstName of person which contact wants to edit");
+            string firstName1 = Console.ReadLine();
+            Person personobj = personlist.FirstOrDefault(x => x.fisrtName == firstName1);
+            if (personlist.Contains(personobj))
+            {
+                Console.WriteLine("1)FirstName 2)LastName 3)Address 4)City 5)State 6)Phone Number 7)Zip 8)Email");
+                Console.Write("Enter number from above list which you wants to edit :");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                switch (choice)
+                {
+                    case 1:
+                        Console.Write("\nEnter First Name : ");
+                        personobj.fisrtName = Console.ReadLine();
 
-                            break;
-                        case 2:
-                            Console.Write("Enter Last Name : ");
-                            personobj.lastName = Console.ReadLine();
-                            break;
-                        case 3:
-                            Console.Write("Enter Address : ");
-                            personobj.address = Console.ReadLine();
-                            EditContact(personobj);
-                            break;
-                        case 4:
-                            Console.Write("Enter City : ");
-                            personobj.city = Console.ReadLine();
-                            EditContact(personobj);
-                            break;
-                        case 5:
-                            Console.Write("Enter State : ");
-                            personobj.state = Console.ReadLine();
-                            EditContact(personobj);
-                            break;
-                        case 6:
-                            Console.Write("Enter phone number : ");
-                            personobj.phoneNumber = Convert.ToDouble(Console.ReadLine());
-                            EditContact(personobj);
-                            break;
-                        case 7:
-                            Console.Write("Enter Zip : ");
-                            personobj.zip = Convert.ToDouble(Console.ReadLine());
-                            EditContact(personobj);
-                            break;
-                        case 8:
-                            Console.Write("Enter Email : ");
-                            personobj.email = Console.ReadLine();
-                            EditContact(personobj);
-                            break;
-                        default:
-                            Console.WriteLine("Please enter valid numbers");
-                            break;
-                    }
+                        break;
+                    case 2:
+                        Console.Write("Enter Last Name : ");
+                        personobj.lastName = Console.ReadLine();
+                        break;
+                    case 3:
+                        Console.Write("Enter Address : ");
+                        personobj.address = Console.ReadLine();
+                        EditContact(personobj);
+                        break;
+                    case 4:
+                        Console.Write("Enter City : ");
+                        personobj.city = Console.ReadLine();
+                        EditContact(personobj);
+                        break;
+                    case 5:
+                        Console.Write("Enter State : ");
+                        personobj.state = Console.ReadLine();
+                        EditContact(personobj);
+                        break;
+                    case 6:
+                        Console.Write("Enter phone number : ");
+                        personobj.phoneNumber = Convert.ToDouble(Console.ReadLine());
+                        EditContact(personobj);
+                        break;
+                    case 7:
+                        Console.Write("Enter Zip : ");
+                        personobj.zip = Convert.ToDouble(Console.ReadLine());
+                        EditContact(personobj);
+                        break;
+                    case 8:
+                        Console.Write("Enter Email : ");
+                        personobj.email = Console.ReadLine();
+                        EditContact(personobj);
+                        break;
+                    default:
+                        Console.WriteLine("Please enter valid numbers");
+                        break;
+                }
                 Console.WriteLine("\nContact Updated successfully");
                 Console.WriteLine("----------------------------------------------------------------------");
-
-                //    Console.Write("Want to Continue(Y/N) : ");
-                //    ans = Convert.ToChar(Console.ReadLine());
-                //} while (ans == 'Y' || ans == 'y');
             }
             else
             {
