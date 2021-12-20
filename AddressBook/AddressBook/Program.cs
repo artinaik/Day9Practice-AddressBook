@@ -8,9 +8,9 @@ namespace AddressBook
 {
     class Program
     {
-        Dictionary<string, List<Person>> persondic = new Dictionary<string, List<Person>>();
-        List<Person> personlist = new List<Person>();
+        Dictionary<string,List<Person>> persondic = new Dictionary<string,List<Person>>();
         List<Person> personlist1 = new List<Person>();
+        List<Person> people = new List<Person>();
         static void Main(string[] args)
         {
             Program program = new Program();
@@ -42,8 +42,9 @@ namespace AddressBook
                       
             Console.ReadKey();
         }
-        public void Create()//create new contact
+        public Dictionary<string, List<Person>> Create()//create new contact
         {
+            List<Person> personlist = new List<Person>();
             Console.Write("Enter Address book name : ");
             string addressbkName = Console.ReadLine();
             Console.Write("Enter number of how many contacts you want to create : ");
@@ -69,22 +70,34 @@ namespace AddressBook
                 personobj.zip = Convert.ToDouble(Console.ReadLine());
                 Console.Write("Enter Email : ");
                 personobj.email = Console.ReadLine();
-                personlist.Add(personobj);
-                Console.WriteLine("\nContact created successfully");
-                Console.WriteLine("----------------------------------------------------------------------");
-                i++;
+                bool duplicate = personlist.Any(x => x.fisrtName.Equals(personobj.fisrtName));
+                if(duplicate==true)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Contact with same firstname already present in address book.Try to give another name");
+                }
+                else
+                {
+                    personlist.Add(personobj);
+                    people.Add(personobj);
+                    Console.WriteLine("\nContact created successfully");
+                    Console.WriteLine("----------------------------------------------------------------------");
+                    i++;
+                }
+               
             }
-            persondic.Add(addressbkName, personlist);
+            persondic.Add(addressbkName,personlist);
+            return persondic;
         }
         public void Show()
         {
-           // Create();
-            if (personlist.Count == 0)
+            // Create();
+            if (persondic.Count == 0)
             {
                 Console.WriteLine("Your address book is empty");
             }
             else
-                foreach(KeyValuePair<string,List<Person>> keyValue in persondic)
+                foreach (KeyValuePair<string, List<Person>> keyValue in persondic)
                 {
                     Console.Write("Address Book name is : " + keyValue.Key);
                     foreach (var contact in keyValue.Value)//showing items in list
@@ -96,16 +109,15 @@ namespace AddressBook
                         Console.WriteLine("----------------------------------------------------------------------");
                     }
                 }
-           
+
         }
 
         public void Edit()
         {
-            
             Console.WriteLine("Enter FirstName of person which contact wants to edit");
             string firstName1 = Console.ReadLine();
-            Person personobj = personlist.FirstOrDefault(x => x.fisrtName == firstName1);
-            if (personlist.Contains(personobj))
+            Person personobj = people.FirstOrDefault(x => x.fisrtName == firstName1);
+            if (people.Contains(personobj))
             {
                 Console.WriteLine("1)FirstName 2)LastName 3)Address 4)City 5)State 6)Phone Number 7)Zip 8)Email");
                 Console.Write("Enter number from above list which you wants to edit :");
@@ -165,25 +177,28 @@ namespace AddressBook
         }
         public void EditContact(Person person)
         {
-            personlist1.Add(person);
+            people.Add(person);
         }
         public void Delete()
         {
             Console.Write("Enter the first name of the person you want to remove : ");
             string firstName1 = Console.ReadLine();
-            Person person = personlist.FirstOrDefault(x => x.fisrtName== firstName1);
-            if (person == null)
+            foreach (KeyValuePair<string, List<Person>> data in persondic)
             {
-                Console.WriteLine("That person could not be found.");
-            }
-            else 
-            {
-                Console.WriteLine("Are you sure you want to remove this person from your address book? (Y/N)");
-                if (Console.ReadKey().Key == ConsoleKey.Y)
-                    personlist.Remove(person);
-                Console.WriteLine("\nContact deleted successfully");
-                Console.WriteLine("----------------------------------------------------------------------");
-                return;
+                foreach(Person contact in data.Value)
+                {
+                    if (contact.fisrtName==firstName1)
+                    {
+                        Console.WriteLine("Are you sure you want to remove this person from your address book? (Y/N)");
+                        if (Console.ReadKey().Key == ConsoleKey.Y)
+                        data.Value.Remove(contact);
+                        Console.WriteLine("\nContact deleted successfully");
+                        Console.WriteLine("----------------------------------------------------------------------");
+                        return;
+                    }
+                  
+                }
+               
             }
         }
 
