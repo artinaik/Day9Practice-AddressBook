@@ -18,7 +18,7 @@ namespace AddressBook
             char ans;
             do
             {
-                Console.WriteLine("1)Add Contact   2)Show Contact   3)Edit Contact   4)Delete Contact");
+                Console.WriteLine("1)Add Contact   2)Show Contact   3)Edit Contact   4)Delete Contact    5)Search Contact");
                 Console.Write("Enter your choice : ");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
@@ -34,6 +34,23 @@ namespace AddressBook
                         break;
                     case 4:
                         program.Delete();
+                        break;
+                    case 5:
+                        Console.WriteLine("1)Search by city     2)Search by state");
+                        Console.Write("Enter your choice for search person : ");
+                        int choice1 = int.Parse(Console.ReadLine());
+                        switch (choice1)
+                        {
+                            case 1:
+                                program.SearchByCity();
+                                break;
+                            case 2:
+                                program.SearchByState();
+                                break;
+                            default:
+                                Console.WriteLine("Invalid choice");
+                                break;
+                        }
                         break;
                 }
                 Console.Write("Want to Continue(Y/N) : ");
@@ -200,6 +217,36 @@ namespace AddressBook
                 }
                
             }
+        }
+        public void SearchByCity()
+        {
+            Console.Write("Enter City : ");
+            string searchcity = Console.ReadLine();
+            var result = people.FindAll(x => x.city.Equals(searchcity));
+            foreach(var contact in result)
+            {
+                Console.WriteLine("\nPerson details are :");
+                Console.WriteLine("\nFirstName : {0} \nLastName : {1} \nAddress : {2} \nCity : {3} \nState : {4} \nPhone Number : {5} \nZip : {6} \nEmail : {7}",
+                contact.fisrtName, contact.lastName, contact.address, contact.city, contact.state, contact.phoneNumber,
+               contact.zip, contact.email);
+                Console.WriteLine("----------------------------------------------------------------------");
+            }
+         
+        }
+        public void SearchByState()
+        {
+            Console.Write("Enter State : ");
+            string searchstate = Console.ReadLine();
+            var result = people.FindAll(x => x.state.Equals(searchstate));
+            foreach (var contact in result)
+            {
+                Console.WriteLine("\nPerson details are :");
+                Console.WriteLine("\nFirstName : {0} \nLastName : {1} \nAddress : {2} \nCity : {3} \nState : {4} \nPhone Number : {5} \nZip : {6} \nEmail : {7}",
+                contact.fisrtName, contact.lastName, contact.address, contact.city, contact.state, contact.phoneNumber,
+               contact.zip, contact.email);
+                Console.WriteLine("----------------------------------------------------------------------");
+            }
+
         }
 
     }
