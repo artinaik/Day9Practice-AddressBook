@@ -96,19 +96,18 @@ namespace AddressBook
                 else
                 {
                     personlist.Add(personobj);
+                   // personlist.OrderBy(x => x.fisrtName);
                     people.Add(personobj);
                     Console.WriteLine("\nContact created successfully");
                     Console.WriteLine("----------------------------------------------------------------------");
                     i++;
-                }
-               
+                }             
             }
             persondic.Add(addressbkName,personlist);
             return persondic;
         }
         public void Show()
         {
-            // Create();
             if (persondic.Count == 0)
             {
                 Console.WriteLine("Your address book is empty");
@@ -117,7 +116,7 @@ namespace AddressBook
                 foreach (KeyValuePair<string, List<Person>> keyValue in persondic)
                 {
                     Console.Write("Address Book name is : " + keyValue.Key);
-                    foreach (var contact in keyValue.Value)//showing items in list
+                    foreach (var contact in keyValue.Value.OrderBy(x => x.zip))//showing items in list
                     {
                         Console.WriteLine("\nPerson details are :");
                         Console.WriteLine("\nFirstName : {0} \nLastName : {1} \nAddress : {2} \nCity : {3} \nState : {4} \nPhone Number : {5} \nZip : {6} \nEmail : {7}",
@@ -126,7 +125,6 @@ namespace AddressBook
                         Console.WriteLine("----------------------------------------------------------------------");
                     }
                 }
-
         }
 
         public void Edit()
