@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace AddressBook
             char ans;
             do
             {
-                Console.WriteLine("1)Add Contact   2)Show Contact   3)Edit Contact   4)Delete Contact    5)Search Contact");
+                Console.WriteLine("1)Add Contact   2)Show Contact   3)Edit Contact   4)Delete Contact    5)Write to file   6)Read from file  7)Search Contact");
                 Console.Write("Enter your choice : ");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
@@ -36,6 +37,14 @@ namespace AddressBook
                         program.Delete();
                         break;
                     case 5:
+                        program.WriteToFile(program.persondic);
+                        Console.WriteLine("Address book written to file successfully");
+                        break;
+                    case 6:
+                        Console.WriteLine("Reading Person's data from file");
+                        program.ReadFromFile();                      
+                        break;
+                    case 7:
                         Console.WriteLine("1)Search by city     2)Search by state");
                         Console.Write("Enter your choice for search person : ");
                         int choice1 = int.Parse(Console.ReadLine());
@@ -96,15 +105,44 @@ namespace AddressBook
                 else
                 {
                     personlist.Add(personobj);
-                   // personlist.OrderBy(x => x.fisrtName);
+                    // personlist.OrderBy(x => x.fisrtName);
                     people.Add(personobj);
                     Console.WriteLine("\nContact created successfully");
                     Console.WriteLine("----------------------------------------------------------------------");
                     i++;
                 }             
             }
-            persondic.Add(addressbkName,personlist);
+          
+            persondic.Add(addressbkName,personlist);           
             return persondic;
+        }
+        public void WriteToFile(Dictionary<string, List<Person>> persondic)
+        {
+            String path = @"C:\Dot Net\Day9Practice-AddressBook\AddressBook\AddressBook\PersonsData.txt";
+            using (StreamWriter sr = File.AppendText(path))
+            {
+                foreach(KeyValuePair<string,List<Person>> keyValuePair in persondic)
+                {
+                    sr.WriteLine("Address Book Name : " + keyValuePair.Key);
+                    sr.WriteLine("FirstName\tLastName\tAddressCity\tState\tPhone Number\tZip\tEmail");
+                    foreach (var contact in keyValuePair.Value)
+                    {
+                        sr.WriteLine(contact.fisrtName + " " + contact.lastName + " " + contact.address + " " + contact.city + " " + contact.state + " " + contact.phoneNumber + " " + contact.zip + "" + contact.email);
+                    }
+                  
+                }
+               
+            }
+        }
+        public void ReadFromFile()
+        {
+            String path = @"C:\Dot Net\Day9Practice-AddressBook\AddressBook\AddressBook\PersonsData.txt";
+            string[] data;
+            data = File.ReadAllLines(path);
+            foreach(var item in data)
+            {
+                Console.WriteLine(item);
+            }
         }
         public void Show()
         {
