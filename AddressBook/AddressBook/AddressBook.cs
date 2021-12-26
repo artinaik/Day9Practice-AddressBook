@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace AddressBook
 {
@@ -66,6 +68,7 @@ namespace AddressBook
         {
             String pathTxt = @"C:\Dot Net\Day9Practice-AddressBook\AddressBook\AddressBook\PersonsData.txt";
             String pathCsv = @"C:\Dot Net\Day9Practice-AddressBook\AddressBook\AddressBook\PersonsData.csv";
+            string pathjson = @"C:\Dot Net\Day9Practice-AddressBook\AddressBook\AddressBook\PersonsData.json";
             if (format.Equals("txt"))
             {
                 using (StreamWriter sr = File.AppendText(pathTxt))
@@ -117,12 +120,31 @@ namespace AddressBook
 
                 }
             }
+            if (format.Equals("json"))
+            {
+                List<Person> people = new List<Person>();
+                foreach(KeyValuePair<string,List<Person>> keyValue in persondic)
+                {
+                    foreach(var contact in keyValue.Value)
+                    {
+                        people.Add(contact);
+                    }
+                }
+                string json = JsonConvert.SerializeObject(people.ToArray());
+
+                //write string to file
+                System.IO.File.WriteAllText(pathjson, json);
+
+            }
+
         }
         public void ReadFromFile(string format)
         {
             String pathTxt = @"C:\Dot Net\Day9Practice-AddressBook\AddressBook\AddressBook\PersonsData.txt";
-            String pathCsv = @"C:\Dot Net\Day9Practice-AddressBook\AddressBook\AddressBook\PersonsData.csv"; 
-            if(format.Equals("txt"))
+            String pathCsv = @"C:\Dot Net\Day9Practice-AddressBook\AddressBook\AddressBook\PersonsData.csv";
+            string pathjson = @"C:\Dot Net\Day9Practice-AddressBook\AddressBook\AddressBook\PersonsData.json";
+
+            if (format.Equals("txt"))
             {
                 string[] data;
                 data = File.ReadAllLines(pathTxt);
@@ -150,6 +172,15 @@ namespace AddressBook
                         Console.Write("\t" + contact.email);
                         Console.WriteLine();
                     }
+                }
+            }
+            if (format.Equals("json"))
+            {
+                string[] data;
+                data = File.ReadAllLines(pathjson);
+                foreach (var item in data)
+                {
+                    Console.WriteLine(item);
                 }
             }
         }
